@@ -56,7 +56,7 @@ const Home = (props) => {
       <p>{props.currentAccount}</p>
       
       <button onClick={handleSign}> sign </button>
-      <a href={'testproto://'+signature} target="_blank" rel="noreferrer">Verify</a>
+      <a href={'testproto://'+signature+'//'+props.currentAccount} target="_blank" rel="noreferrer">Verify</a>
       {/* <p>{props.balance} ETH</p> */}
     </Card>
   );
