@@ -6,38 +6,11 @@ import { ethers } from "ethers"
 const Home = (props) => {
   const [signature, setSignature] = useState();
   const [error, setError] = useState();
+  const [verifying, setVerifying] = useState();
 
-  const detectProvider = () => {
-    let provider;
-    if (window.ethereum) {
-      provider = window.ethereum;
-    } else if (window.web3) {
-      provider = window.web3.currentProvider;
-    } else {
-      window.alert("No Ethereum browser detected! Check out MetaMask");
-    }
-    return provider;
-  };
-
-  
 
   async function handleSign(e)
-  {
-
-    // const provider = detectProvider();
-    // console.log(provider)
-    // if (provider) {
-    //   if (provider !== window.ethereum) {
-    //     console.error(
-    //       "Not window.ethereum provider. Do you have multiple wallet installed ?"
-    //     );
-    //   }
-      
-    //   await provider.request({
-    //     method: "eth_requestAccounts",
-    //   });
-    // }
-    
+  { 
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     var currentDate = new Date();
@@ -48,15 +21,17 @@ const Home = (props) => {
     setSignature(TempSignature);
     console.log(signature)
     const address = await signer.getAddress();
+    setVerifying(true)
   }
 
   return (
     <Card className={classes.home}>
-      <h1>You can now proceed on the desktop app.</h1>
+      { !verifying &&  <h1>Sign your wallet. No transaction will be made during the sign.</h1> }
+      { verifying &&  <h1>Verify to continue.</h1> }
       <p>{props.currentAccount}</p>
       
-      <button onClick={handleSign}> sign </button>
-      <a href={'testproto://'+signature+'//'+props.currentAccount} target="_blank" rel="noreferrer">Verify</a>
+      { !verifying && <button className={classes.button} onClick={handleSign}> sign </button>}
+      { verifying && <a href={'testproto://'+signature+'//'+props.currentAccount} target="_blank" rel="noreferrer"><button className={classes.button}> Verify </button></a> }
       {/* <p>{props.balance} ETH</p> */}
     </Card>
   );
