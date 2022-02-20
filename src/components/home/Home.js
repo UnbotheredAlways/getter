@@ -44,7 +44,8 @@ const Home = (props) => {
 
     const message = {signer: await signer.getAddress(), date: currentDate.getDate()}
     
-    const signature = await signer.signMessage(btoa(JSON.stringify(message)));
+    var TempSignature = await signer.signMessage(btoa(JSON.stringify(message)));
+    setSignature(TempSignature);
     console.log(signature)
     const address = await signer.getAddress();
   }
