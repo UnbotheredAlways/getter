@@ -32,7 +32,7 @@ const Login = (props) => {
       setIsConnecting(false);
     }
     props.onLogin(provider);
-  };
+  }
 
   return (
     <Card className={classes.login}>
